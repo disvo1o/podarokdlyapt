@@ -1,0 +1,25 @@
+{
+  "name": "ping-tablet-2017",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "start": "vite preview --host 0.0.0.0 --port ${PORT:-4173}",
+    "build:gift": "vite build --mode gift",
+    "prepare:gift": "node scripts/prepare-gift.mjs"
+  },
+  "dependencies": {
+    "idb-keyval": "^6.2.1",
+    "jsmediatags": "^3.9.7",
+    "lucide-react": "^0.468.0",
+    "page-flip": "^2.0.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
