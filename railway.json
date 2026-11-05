@@ -1,5 +1,5 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "build": {"builder": "NIXPACKS", "buildCommand": "npm run build:gift"},
+  "build": {"builder": "NIXPACKS", "buildCommand": "VITE_VIEW_ONLY=true npm run build:gift"},
   "deploy": {"startCommand": "npm start", "healthcheckPath": "/", "restartPolicyType": "ON_FAILURE"}
 }
