@@ -9,27 +9,30 @@ export function validateBook(book) {
     throw new Error('Invalid published book');
   }
 
-  // Hide repeated copies in the published edition without modifying the source archive.
+  // Remove repeated photo sources across the whole published album.
   const seenPhotos = new Set();
   const pages = book.pages.map(page => ({
     ...page,
     photos: page.photos.filter(photo => {
-      const key = typeof photo.src === 'string' ? photo.src.trim() : '';
-      if (!key) return true;
-      if (seenPhotos.has(key)) return false;
-      seenPhotos.add(key);
+      const src = typeof photo.src === 'string' ? photo.src.trim() : '';
+      if (!src) return true;
+      if (seenPhotos.has(src)) return false;
+      seenPhotos.add(src);
       return true;
     })
   }));
 
-  const seenTracks = new Set();
+  // A track is a duplicate if either its audio source or its title + artist repeats.
+  const seenTrackSources = new Set();
+  const seenTrackMetadata = new Set();
   const tracks = (book.tracks ?? []).filter(track => {
     const src = typeof track.src === 'string' ? track.src.trim() : '';
     const title = normalize(track.name);
     const artist = normalize(track.artist);
-    const identity = src ? 'src:' + src : 'meta:' + title + '|' + artist;
-    if (seenTracks.has(identity)) return false;
-    seenTracks.add(identity);
+    const metadata = title ? title + '|' + artist : '';
+    if ((src && seenTrackSources.has(src)) || (metadata && seenTrackMetadata.has(metadata))) return false;
+    if (src) seenTrackSources.add(src);
+    if (metadata) seenTrackMetadata.add(metadata);
     return true;
   });
 
